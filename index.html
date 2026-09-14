@@ -44,6 +44,7 @@
   .card input{font:inherit;font-size:14px;width:90px;padding:5px 7px;border:1px solid var(--line);border-radius:5px}
   .card input[type=date]{width:150px}
   .card.empty .val{color:var(--grey)}
+  .card.empty .trend{color:var(--amber)}
   .legend{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:14px}
   .legend h3{margin:0 0 8px;font-size:15px}
   .legend ul{margin:0;padding-left:18px}
@@ -72,7 +73,7 @@
   <div class="verdict">
     <h2 id="verdictTitle"></h2>
     <p id="verdictText"></p>
-    <small>Score = moyenne pondérée du risque de chaque indicateur (0 = zone sûre, 100 = seuil de crise historique). Les indicateurs sans valeur sont exclus du calcul.</small>
+    <small>Score = moyenne pondérée du risque de chaque indicateur (0 = zone sûre, 100 = seuil de crise historique). Les indicateurs sans valeur ou trop anciens sont exclus du calcul.</small>
     <div class="flags" id="flags"></div>
   </div>
 </div>
@@ -113,10 +114,10 @@ const INDICATORS = [
  {id:"nfci", fam:"Financier", name:"Conditions financières (NFCI Chicago Fed)", unit:"", value:-0.56, prev:-0.54, date:"2026-08-28",
   safe:-0.5, danger:0.5, weight:5, src:"https://fred.stlouisfed.org/series/NFCI", srcName:"FRED NFCI",
   why:"105 mesures de stress (liquidité, crédit, levier). Positif = plus tendu que la moyenne ; précède le PIB de 1–2 trimestres."},
- {id:"cape", fam:"Financier", name:"Valorisation actions (CAPE Shiller)", unit:"×", value:41.0, prev:39.7, date:"2026-09-09", timing:false,
+ {id:"cape", fam:"Financier", name:"Valorisation actions (CAPE Shiller)", unit:"×", value:41.0, prev:39.7, date:"2026-09-09", timing:false, freq:"Q",
   safe:20, danger:40, weight:5, src:"https://www.multpl.com/shiller-pe", srcName:"multpl.com",
   why:"Ne prédit pas la date mais l'ampleur : > 40 n'a été vu qu'en 1999–2000 (Campbell & Shiller 1998). Rendements 10 ans attendus faibles."},
- {id:"gap", fam:"Financier", name:"Écart crédit privé / PIB (BIS)", unit:"pt", value:null, date:"", timing:false,
+ {id:"gap", fam:"Financier", name:"Écart crédit privé / PIB (BIS)", unit:"pt", value:null, date:"", timing:false, freq:"Q",
   safe:0, danger:10, weight:5, src:"https://www.bis.org/statistics/c_gaps.htm", srcName:"BIS credit gaps",
   why:"Meilleur signal avancé des crises bancaires à 1–3 ans (Borio & Lowe 2002, Drehmann & Juselius 2014). Seuil : > 10 pt. Trimestriel, à renseigner."},
  // ---------- Économique ----------
@@ -126,13 +127,13 @@ const INDICATORS = [
  {id:"claims", fam:"Économique", name:"Inscriptions au chômage (moy. 4 sem.)", unit:"k", value:206, prev:207.5, date:"2026-09-05",
   safe:210, danger:260, weight:8, src:"https://fred.stlouisfed.org/series/IC4WSA", srcName:"FRED IC4WSA",
   why:"Donnée la plus rapide (hebdo). Une hausse durable de +20 % vs le plus bas 12 mois précède les récessions de 2–4 mois. Mesure les licenciements, pas les embauches."},
- {id:"ism", fam:"Économique", name:"ISM manufacturier (PMI)", unit:"", value:54.6, prev:55.6, date:"2026-08",
-  safe:52, danger:45, weight:8, src:"https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/", srcName:"ISM",
-  why:"Enquête directeurs d'achats. < 50 = contraction du secteur ; < 45 = économie entière en récession dans l'histoire. Regarder aussi les nouvelles commandes (53,7)."},
- {id:"lei", fam:"Économique", name:"Indice avancé Conference Board (6 mois)", unit:"%", value:0.2, prev:-1.3, date:"2026-07",
-  safe:1, danger:-3, weight:8, src:"https://www.conference-board.org/topics/us-leading-indicators/", srcName:"Conference Board",
-  why:"Composite de 10 séries avancées. Règle 3D : ‑2 % sur 6 mois avec diffusion large = récession (fiable depuis 1980, faux positif en 2022–24)."},
- {id:"permits", fam:"Économique", name:"Permis de construire (a/a)", unit:"%", value:3.1, date:"2026-07",
+{id:"cfnai", fam:"Économique", name:"Activité nationale Fed de Chicago (CFNAI, moy. 3 mois)", unit:"", value:null, date:"",
+  safe:0, danger:-0.7, weight:8, src:"https://fred.stlouisfed.org/series/CFNAIMA3", srcName:"FRED CFNAIMA3",
+  why:"85 séries d'activité réelle résumées en un chiffre (0 = croissance tendancielle). < ‑0,7 = récession, avec très peu de faux positifs depuis 1967."},
+ {id:"cli", fam:"Économique", name:"Indicateur avancé OCDE – États-Unis", unit:"", value:null, date:"",
+  safe:100.5, danger:98.5, weight:8, src:"https://fred.stlouisfed.org/series/USALOLITONOSTSAM", srcName:"FRED (OCDE CLI)",
+  why:"Composite avancé de l'OCDE, normalisé à 100. Passe sous 99 avant chaque récession US depuis 1970 ; même logique que le LEI du Conference Board, mais gratuit."},
+  {id:"permits", fam:"Économique", name:"Permis de construire (a/a)", unit:"%", value:3.1, date:"2026-07",
   safe:5, danger:-15, weight:6, src:"https://fred.stlouisfed.org/series/PERMIT", srcName:"FRED PERMIT",
   why:"« Housing is the business cycle » (Leamer 2007) : le logement retourne un an avant le reste. Seuil : ‑15 % a/a."},
  // ---------- Physique ----------
@@ -148,8 +149,14 @@ const DATA_URL = "data/us.json";
 const INITIAL = JSON.parse(JSON.stringify(INDICATORS));
 
 // ===== Moteur =====
+function ageMonths(d){
+  if(!d) return null; const m=d.match(/^(\d{4})-(?:(\d{2})|[TQ](\d))/); if(!m) return null;
+  const mo = m[2]? +m[2] : (+m[3])*3; const n=new Date();
+  return (n.getFullYear()-+m[1])*12 + (n.getMonth()+1-mo);
+}
+const stale = i => { const a=ageMonths(i.date); return a!=null && a > (i.freq==="Q"?8:5); };
 const risk = i => {
-  if(i.value==null) return null;
+  if(i.value==null || stale(i)) return null;
   let r = (i.value-i.safe)/(i.danger-i.safe)*100;
   if(i.floor!=null) r = Math.max(r, i.floor);
   return Math.max(0,Math.min(100,r));
@@ -205,15 +212,20 @@ function trend(i){
   const d=b-a, arrow = Math.abs(d)<2 ? "= stable" : d>0 ? "▲ risque en hausse" : "▼ risque en baisse";
   return `${arrow} · précédent ${fmt(i.prev)}`;
 }
+function staleNote(i){
+  if(i.value==null) return i.optional ? "optionnel · à renseigner si tu passes par là" : "à renseigner";
+  return stale(i) ? "donnée ancienne, exclue du score" : "";
+}
 function card(i){
   const r=risk(i);
+  const note=staleNote(i);
   return `<article class="card ${r==null?'empty':''}">
    <div class="name">${i.name}</div>
    <div class="g">${gauge(r,false)}</div>
    <div class="val">${fmt(i.value)}<span>${i.unit}</span></div>
-   <div class="trend">${trend(i)}</div>
+   <div class="trend">${note||trend(i)}</div>
    <p class="why">${i.why}</p>
-   <div class="meta"><span>Seuils : sûr ${fmt(i.safe)} · crise ${fmt(i.danger)} · poids ${i.weight}${i.timing===false?' · ampleur':''}</span></div>
+   <div class="meta"><span>Seuils : sûr ${fmt(i.safe)} · crise ${fmt(i.danger)} · poids ${i.weight}${i.timing===false?' · ampleur':''}${i.optional?' · optionnel':''}</span></div>
    <div class="meta"><span>${i.date||"non renseigné"}</span><a href="${i.src}" target="_blank" rel="noopener">${i.srcName}</a></div>
    <div class="edit"><label>Valeur <input type="text" inputmode="decimal" data-id="${i.id}" value="${i.value==null?'':i.value}"></label>
    <label>Date <input type="date" data-id="${i.id}" value="${/^\d{4}-\d{2}-\d{2}$/.test(i.date)?i.date:''}"></label></div>

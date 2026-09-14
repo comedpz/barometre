@@ -44,6 +44,7 @@
   .card input{font:inherit;font-size:14px;width:90px;padding:5px 7px;border:1px solid var(--line);border-radius:5px}
   .card input[type=date]{width:150px}
   .card.empty .val{color:var(--grey)}
+  .card.empty .trend{color:var(--amber)}
   .legend{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:14px}
   .legend h3{margin:0 0 8px;font-size:15px}
   .legend ul{margin:0;padding-left:18px}
@@ -58,7 +59,7 @@
 <header>
   <div>
     <h1>Baromètre de crise — France</h1>
-    <p>13 indicateurs France / zone euro, adaptés de la littérature sur les récessions et les crises souveraines. Mis à jour le <span id="upd"></span>.</p>
+    <p>12 indicateurs France / zone euro, adaptés de la littérature sur les récessions et les crises souveraines. Mis à jour le <span id="upd"></span>.</p>
   </div>
   <div class="tools">
     <a class="btn" href="index.html">Version États-Unis</a>
@@ -72,7 +73,7 @@
   <div class="verdict">
     <h2 id="verdictTitle"></h2>
     <p id="verdictText"></p>
-    <small>Score = moyenne pondérée du risque de chaque indicateur (0 = zone sûre, 100 = seuil de crise historique). Les indicateurs sans valeur sont exclus du calcul.</small>
+    <small>Score = moyenne pondérée du risque de chaque indicateur (0 = zone sûre, 100 = seuil de crise historique). Les indicateurs sans valeur ou trop anciens sont exclus du calcul.</small>
     <div class="flags" id="flags"></div>
   </div>
 </div>
@@ -116,33 +117,30 @@ const INDICATORS = [
  {id:"ciss", fam:"Financier", name:"Stress systémique zone euro (CISS BCE)", unit:"", value:null, date:"",
   safe:0.1, danger:0.5, weight:8, src:"https://data.ecb.europa.eu/data/datasets/CISS", srcName:"BCE Data Portal",
   why:"Indicateur composite de la BCE (Holló, Kremer & Lo Duca 2012) : > 0,5 en 2008, 2011–12 et mars 2020. Hebdo, à renseigner."},
- {id:"gap", fam:"Financier", name:"Écart crédit privé / PIB France (BIS)", unit:"pt", value:null, date:"", timing:false,
+ {id:"gap", fam:"Financier", name:"Écart crédit privé / PIB France (BIS)", unit:"pt", value:null, date:"", timing:false, freq:"Q",
   safe:0, danger:10, weight:5, src:"https://www.bis.org/statistics/c_gaps.htm", srcName:"BIS credit gaps",
   why:"Meilleur signal avancé des crises bancaires à 1–3 ans (Borio & Lowe 2002). Seuil : > 10 pt. Trimestriel, à renseigner."},
  // ---------- Économique ----------
- {id:"sahm", fam:"Économique", name:"Règle de Sahm France (chômage BIT)", unit:"pt", value:0.7, prev:0.5, date:"2026-T2",
-  safe:0, danger:0.5, weight:10, src:"https://www.insee.fr/fr/statistiques/9032359", srcName:"INSEE",
-  why:"Hausse du taux de chômage vs son plus bas sur 12 mois (8,3 % vs 7,6 %). ≥ 0,5 pt = retournement du marché du travail engagé. Sixième trimestre de hausse consécutif, plus haut depuis 2020."},
- {id:"climat", fam:"Économique", name:"Climat des affaires INSEE", unit:"", value:98, prev:98, date:"2026-08",
-  safe:100, danger:90, weight:8, src:"https://www.insee.fr/fr/statistiques/2107840", srcName:"INSEE",
-  why:"Moyenne 100, écart-type 10. Passé sous 90 en 2008–09, 2012 et 2020. Enquête auprès de tous les secteurs ; le bâtiment est à 96."},
- {id:"pmi", fam:"Économique", name:"PMI composite France (HCOB)", unit:"", value:48.5, prev:49.4, date:"2026-08",
-  safe:51, danger:45, weight:8, src:"https://www.pmi.spglobal.com/Public/Release/PressReleases", srcName:"S&P Global / HCOB",
-  why:"< 50 = contraction du secteur privé. Huitième mois consécutif sous 50, entièrement tiré par les services. < 45 = récession franche."},
- {id:"menages", fam:"Économique", name:"Confiance des ménages INSEE", unit:"", value:86, date:"2026-08",
-  safe:100, danger:80, weight:5, src:"https://www.insee.fr/fr/statistiques/2107840", srcName:"INSEE",
-  why:"Moyenne 100. Plancher historique 79 (2008, 2022). La consommation fait plus de la moitié du PIB français."},
- {id:"defaill", fam:"Économique", name:"Défaillances d'entreprises (12 mois, a/a)", unit:"%", value:4.6, prev:4.4, date:"2026-07",
+ {id:"sahm", fam:"Économique", name:"Règle de Sahm France (chômage harmonisé)", unit:"pt", value:0.7, prev:0.5, date:"2026-T2",
+  safe:0, danger:0.5, weight:10, src:"https://fred.stlouisfed.org/series/LRHUTTTTFRM156S", srcName:"FRED (OCDE, mensuel)",
+  why:"Chômage (moy. 3 mois) vs son plus bas sur 12 mois. ≥ 0,5 pt = retournement du marché du travail engagé. Version mensuelle OCDE de la série INSEE."},
+{id:"climat", fam:"Économique", name:"Climat des affaires France (OCDE / INSEE)", unit:"", value:98, prev:98, date:"2026-08",
+  safe:100, danger:96, weight:8, src:"https://fred.stlouisfed.org/series/BSCICP03FRM665S", srcName:"FRED (OCDE BCI)",
+  why:"Enquête INSEE republiée par l'OCDE, normalisée à 100. Sous 96 en 2008–09, 2012 et 2020. Tous secteurs."},
+ {id:"menages", fam:"Économique", name:"Confiance des ménages France (OCDE / INSEE)", unit:"", value:86, date:"2026-08",
+  safe:100, danger:97, weight:5, src:"https://fred.stlouisfed.org/series/CSCICP03FRM665S", srcName:"FRED (OCDE CCI)",
+  why:"Enquête INSEE republiée par l'OCDE, normalisée à 100. Planchers 2008 et 2022 vers 97. La consommation fait plus de la moitié du PIB."},
+  {id:"defaill", fam:"Économique", name:"Défaillances d'entreprises (12 mois, a/a)", unit:"%", value:4.6, prev:4.4, date:"2026-07", optional:true,
   safe:0, danger:15, weight:8, src:"https://www.banque-france.fr/fr/statistiques/entreprises/defaillances-dentreprises-2026-07", srcName:"Banque de France",
   why:"70 605 sur 12 mois, +19 % vs moyenne 2010–2019. En 2009 la hausse annuelle avait atteint +14 %. Indicateur retardé mais robuste ; PME/ETI très au-dessus de leur norme."},
- {id:"logements", fam:"Économique", name:"Logements autorisés (12 mois, a/a)", unit:"%", value:5.7, date:"2026-07",
+ {id:"logements", fam:"Économique", name:"Logements autorisés (12 mois, a/a)", unit:"%", value:5.7, date:"2026-07", optional:true,
   safe:5, danger:-15, weight:6, src:"https://www.statistiques.developpement-durable.gouv.fr/la-construction-neuve", srcName:"SDES Sitadel",
   why:"Le logement retourne un an avant le reste (Leamer 2007). Rebond en cours depuis un point bas très profond : toujours ‑9,5 % vs moyenne 5 ans."},
  // ---------- Physique ----------
- {id:"pl", fam:"Physique", name:"Trafic poids lourds Vinci Autoroutes (cumul a/a)", unit:"%", value:1.2, prev:1.3, date:"2026-07",
-  safe:2, danger:-5, weight:10, src:"https://www.vinci.com", srcName:"Vinci (communiqué mensuel)",
-  why:"Camions = production et échanges réels, publié chaque mois vers le 20, impossible à maquiller. Recul de ‑8 % en 2009. Juillet seul : ‑0,9 %."},
- {id:"cu", fam:"Physique", name:"Cuivre – prix (a/a)", unit:"%", value:41, date:"2026-09-11",
+{id:"ipi", fam:"Physique", name:"Production industrielle France (a/a)", unit:"%", value:-0.7, date:"2026-07",
+  safe:1, danger:-5, weight:10, src:"https://fred.stlouisfed.org/series/FRAPROINDMISMEI", srcName:"FRED (OCDE, mensuel)",
+  why:"Volumes réellement produits par l'industrie. ‑15 % en 2009, ‑8 % en 2020. Une baisse durable > 3 % a/a accompagne chaque récession française."},
+  {id:"cu", fam:"Physique", name:"Cuivre – prix (a/a)", unit:"%", value:41, date:"2026-09-11",
   safe:10, danger:-15, weight:8, src:"https://tradingeconomics.com/commodity/copper", srcName:"Trading Economics",
   why:"« Dr Copper » : demande industrielle mondiale. Une chute > 15 % a/a a accompagné 2001, 2008, 2015, 2020. Hausse actuelle gonflée par les droits de douane US."},
 ];
@@ -151,8 +149,14 @@ const DATA_URL = "data/fr.json";
 const INITIAL = JSON.parse(JSON.stringify(INDICATORS));
 
 // ===== Moteur =====
+function ageMonths(d){
+  if(!d) return null; const m=d.match(/^(\d{4})-(?:(\d{2})|[TQ](\d))/); if(!m) return null;
+  const mo = m[2]? +m[2] : (+m[3])*3; const n=new Date();
+  return (n.getFullYear()-+m[1])*12 + (n.getMonth()+1-mo);
+}
+const stale = i => { const a=ageMonths(i.date); return a!=null && a > (i.freq==="Q"?8:5); };
 const risk = i => {
-  if(i.value==null) return null;
+  if(i.value==null || stale(i)) return null;
   let r = (i.value-i.safe)/(i.danger-i.safe)*100;
   if(i.floor!=null) r = Math.max(r, i.floor);
   return Math.max(0,Math.min(100,r));
@@ -208,15 +212,20 @@ function trend(i){
   const d=b-a, arrow = Math.abs(d)<2 ? "= stable" : d>0 ? "▲ risque en hausse" : "▼ risque en baisse";
   return `${arrow} · précédent ${fmt(i.prev)}`;
 }
+function staleNote(i){
+  if(i.value==null) return i.optional ? "optionnel · à renseigner si tu passes par là" : "à renseigner";
+  return stale(i) ? "donnée ancienne, exclue du score" : "";
+}
 function card(i){
   const r=risk(i);
+  const note=staleNote(i);
   return `<article class="card ${r==null?'empty':''}">
    <div class="name">${i.name}</div>
    <div class="g">${gauge(r,false)}</div>
    <div class="val">${fmt(i.value)}<span>${i.unit}</span></div>
-   <div class="trend">${trend(i)}</div>
+   <div class="trend">${note||trend(i)}</div>
    <p class="why">${i.why}</p>
-   <div class="meta"><span>Seuils : sûr ${fmt(i.safe)} · crise ${fmt(i.danger)} · poids ${i.weight}${i.timing===false?' · ampleur':''}</span></div>
+   <div class="meta"><span>Seuils : sûr ${fmt(i.safe)} · crise ${fmt(i.danger)} · poids ${i.weight}${i.timing===false?' · ampleur':''}${i.optional?' · optionnel':''}</span></div>
    <div class="meta"><span>${i.date||"non renseigné"}</span><a href="${i.src}" target="_blank" rel="noopener">${i.srcName}</a></div>
    <div class="edit"><label>Valeur <input type="text" inputmode="decimal" data-id="${i.id}" value="${i.value==null?'':i.value}"></label>
    <label>Date <input type="date" data-id="${i.id}" value="${/^\d{4}-\d{2}-\d{2}$/.test(i.date)?i.date:''}"></label></div>
