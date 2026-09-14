@@ -24,22 +24,22 @@
  ],
  "values": {
   "oatbund": {
-   "value": 89.0,
-   "prev": 85.0,
-   "date": "2026-09-10",
-   "source": "embarqué 2026-09-11"
+   "value": 71,
+   "prev": 69,
+   "date": "2026-06",
+   "source": "auto"
   },
   "oat": {
-   "value": 4.31,
-   "prev": 4.19,
-   "date": "2026-09-10",
-   "source": "embarqué 2026-09-11"
+   "value": 3.68,
+   "prev": 3.74,
+   "date": "2026-06-01",
+   "source": "auto"
   },
   "hy": {
-   "value": 2.65,
-   "prev": 2.66,
-   "date": "2026-09-08",
-   "source": "embarqué 2026-09-11"
+   "value": 2.68,
+   "prev": 2.68,
+   "date": "2026-09-11",
+   "source": "auto"
   },
   "ciss": {
    "value": 0.033,
@@ -96,19 +96,15 @@
    "source": "manual"
   },
   "cu": {
-   "value": 41.0,
-   "prev": null,
-   "date": "2026-09-11",
-   "source": "embarqué 2026-09-11"
+   "value": 38.6,
+   "prev": 37.8,
+   "date": "2026-07",
+   "source": "auto"
   }
  },
  "errors": [
-  "oatbund: HTTPError HTTP Error 400: Bad Request",
-  "oat: HTTPError HTTP Error 400: Bad Request",
-  "hy: HTTPError HTTP Error 400: Bad Request",
   "climat: RuntimeError INSEE_TOKEN manquant",
   "menages: RuntimeError INSEE_TOKEN manquant",
-  "sahm: RuntimeError INSEE_TOKEN manquant",
-  "cu: HTTPError HTTP Error 400: Bad Request"
+  "sahm: RuntimeError INSEE_TOKEN manquant"
  ]
 }

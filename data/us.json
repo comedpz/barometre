@@ -20,22 +20,22 @@
  ],
  "values": {
   "yc": {
-   "value": 0.95,
-   "prev": 0.87,
-   "date": "2026-09-10",
-   "source": "embarqué 2026-09-11"
+   "value": 0.89,
+   "prev": 0.95,
+   "date": "2026-09-11",
+   "source": "auto"
   },
   "hy": {
-   "value": 2.71,
-   "prev": 2.65,
-   "date": "2026-09-09",
-   "source": "embarqué 2026-09-11"
+   "value": 2.65,
+   "prev": 2.7,
+   "date": "2026-09-11",
+   "source": "auto"
   },
   "nfci": {
-   "value": -0.56,
-   "prev": -0.54,
-   "date": "2026-08-28",
-   "source": "embarqué 2026-09-11"
+   "value": -0.564,
+   "prev": -0.56,
+   "date": "2026-09-04",
+   "source": "auto"
   },
   "cape": {
    "value": 41.0,
@@ -52,14 +52,14 @@
   "sahm": {
    "value": -0.07,
    "prev": -0.03,
-   "date": "2026-08",
-   "source": "embarqué 2026-09-11"
+   "date": "2026-08-01",
+   "source": "auto"
   },
   "claims": {
    "value": 206.0,
    "prev": 207.5,
    "date": "2026-09-05",
-   "source": "embarqué 2026-09-11"
+   "source": "auto"
   },
   "ism": {
    "value": 54.6,
@@ -74,32 +74,23 @@
    "source": "manual"
   },
   "permits": {
-   "value": 3.1,
-   "prev": null,
+   "value": 2.4,
+   "prev": -1.8,
    "date": "2026-07",
-   "source": "embarqué 2026-09-11"
+   "source": "auto"
   },
   "cass": {
-   "value": -4.8,
-   "prev": -4.1,
-   "date": "2026-07",
-   "source": "embarqué 2026-09-11"
+   "value": 2.1,
+   "prev": -4.8,
+   "date": "2026-08",
+   "source": "auto"
   },
   "cu": {
-   "value": 41.0,
-   "prev": null,
-   "date": "2026-09-11",
-   "source": "embarqué 2026-09-11"
+   "value": 38.6,
+   "prev": 37.8,
+   "date": "2026-07",
+   "source": "auto"
   }
  },
- "errors": [
-  "yc: HTTPError HTTP Error 400: Bad Request",
-  "hy: HTTPError HTTP Error 400: Bad Request",
-  "nfci: HTTPError HTTP Error 400: Bad Request",
-  "sahm: HTTPError HTTP Error 400: Bad Request",
-  "claims: HTTPError HTTP Error 400: Bad Request",
-  "permits: HTTPError HTTP Error 400: Bad Request",
-  "cass: HTTPError HTTP Error 400: Bad Request",
-  "cu: HTTPError HTTP Error 400: Bad Request"
- ]
+ "errors": []
 }
