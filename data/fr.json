@@ -48,10 +48,10 @@
    "source": "auto"
   },
   "gap": {
-   "value": null,
-   "prev": null,
-   "date": "",
-   "source": "manual"
+   "value": -15.7,
+   "prev": -15.5,
+   "date": "2026-Q1",
+   "source": "auto"
   },
   "sahm": {
    "value": 0.7,
