@@ -1,0 +1,14 @@
+{
+  "_aide": "Indicateurs sans API gratuite (ou API à clé non configurée). Modifier value et date, puis commit.",
+  "context": [["PIB T2","0,0 %"],["Croissance 2026 (INSEE)","0,4 %"],["Inflation","2,4 %"],["Chômage","8,3 %"],["OAT 10 ans","4,31 %"]],
+  "values": {
+    "pmi":       {"value": 48.5, "date": "2026-08", "source": "https://www.pmi.spglobal.com"},
+    "climat":    {"value": 98,   "date": "2026-08", "source": "https://www.insee.fr/fr/statistiques/2107840"},
+    "menages":   {"value": 86,   "date": "2026-08", "source": "https://www.insee.fr/fr/statistiques/2107840"},
+    "sahm":      {"value": 0.7,  "date": "2026-T2", "source": "https://www.insee.fr (chômage BIT, écart au plus bas 12 mois)"},
+    "defaill":   {"value": 4.6,  "date": "2026-07", "source": "https://www.banque-france.fr/fr/statistiques/entreprises"},
+    "logements": {"value": 5.7,  "date": "2026-07", "source": "https://www.statistiques.developpement-durable.gouv.fr/la-construction-neuve"},
+    "pl":        {"value": 1.2,  "date": "2026-07", "source": "https://www.vinci.com (communiqué trafic mensuel)"},
+    "gap":       {"value": null, "date": "", "source": "https://www.bis.org/statistics/c_gaps.htm"}
+  }
+}

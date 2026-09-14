@@ -1,0 +1,106 @@
+{
+ "updated": "2026-09-11",
+ "context": [
+  [
+   "PIB T2",
+   "0,0 %"
+  ],
+  [
+   "Croissance 2026 (INSEE)",
+   "0,4 %"
+  ],
+  [
+   "Inflation",
+   "2,4 %"
+  ],
+  [
+   "Chômage",
+   "8,3 %"
+  ],
+  [
+   "OAT 10 ans",
+   "4,31 %"
+  ]
+ ],
+ "values": {
+  "oatbund": {
+   "value": 89.0,
+   "prev": 85.0,
+   "date": "2026-09-10",
+   "source": "embarqué 2026-09-11"
+  },
+  "oat": {
+   "value": 4.31,
+   "prev": 4.19,
+   "date": "2026-09-10",
+   "source": "embarqué 2026-09-11"
+  },
+  "hy": {
+   "value": 2.65,
+   "prev": 2.66,
+   "date": "2026-09-08",
+   "source": "embarqué 2026-09-11"
+  },
+  "ciss": {
+   "value": null,
+   "prev": null,
+   "date": "",
+   "source": "embarqué 2026-09-11"
+  },
+  "gap": {
+   "value": null,
+   "prev": null,
+   "date": "",
+   "source": "embarqué 2026-09-11"
+  },
+  "sahm": {
+   "value": 0.7,
+   "prev": 0.5,
+   "date": "2026-T2",
+   "source": "embarqué 2026-09-11"
+  },
+  "climat": {
+   "value": 98.0,
+   "prev": 98.0,
+   "date": "2026-08",
+   "source": "embarqué 2026-09-11"
+  },
+  "pmi": {
+   "value": 48.5,
+   "prev": 49.4,
+   "date": "2026-08",
+   "source": "embarqué 2026-09-11"
+  },
+  "menages": {
+   "value": 86.0,
+   "prev": null,
+   "date": "2026-08",
+   "source": "embarqué 2026-09-11"
+  },
+  "defaill": {
+   "value": 4.6,
+   "prev": 4.4,
+   "date": "2026-07",
+   "source": "embarqué 2026-09-11"
+  },
+  "logements": {
+   "value": 5.7,
+   "prev": null,
+   "date": "2026-07",
+   "source": "embarqué 2026-09-11"
+  },
+  "pl": {
+   "value": 1.2,
+   "prev": 1.3,
+   "date": "2026-07",
+   "source": "embarqué 2026-09-11"
+  },
+  "cu": {
+   "value": 41.0,
+   "prev": null,
+   "date": "2026-09-11",
+   "source": "embarqué 2026-09-11"
+  }
+ },
+ "errors": []
+}

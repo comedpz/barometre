@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Baromètre de crise — États-Unis / monde</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#E9EDF1;--paper:#FBFCFD;--ink:#16202B;--mute:#5D6B7A;--line:#CBD3DB;--blue:#24466E;--green:#2A7A57;--amber:#C98A12;--red:#B8352C;--grey:#9AA5B1}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Instrument Sans",-apple-system,"Segoe UI",sans-serif;line-height:1.45}
+  main{max-width:1080px;margin:0 auto;padding:20px 16px 60px}
+  header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:18px}
+  h1{font-size:26px;font-weight:700;margin:0;letter-spacing:-.01em}
+  header p{margin:4px 0 0;color:var(--mute);font-size:14px;max-width:640px}
+  .tools{display:flex;gap:8px;flex-wrap:wrap}
+  button,a.btn{font:inherit;font-size:14px;font-weight:600;padding:8px 14px;border-radius:6px;border:1px solid var(--blue);background:var(--paper);color:var(--blue);cursor:pointer;text-decoration:none}
+  button.on{background:var(--blue);color:#fff}
+  button:focus-visible,a.btn:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+  .hero{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px 20px;display:grid;grid-template-columns:260px 1fr;gap:20px;align-items:center;margin-bottom:12px}
+  .hero svg{width:100%;height:auto;display:block}
+  .verdict h2{margin:0 0 6px;font-size:22px;font-weight:700}
+  .verdict p{margin:0 0 10px;font-size:15px}
+  .verdict small{color:var(--mute);font-size:13px}
+  .flags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .flag{font-size:13px;padding:3px 9px;border-radius:999px;color:#fff;font-weight:600}
+  .ctx{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--mute);margin:0 4px 22px}
+  .ctx b{color:var(--ink);font-weight:600}
+  section{margin-bottom:26px}
+  section>h3{font-size:15px;font-weight:600;color:var(--mute);margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:6px}
+  .card .name{font-weight:600;font-size:15px;line-height:1.25}
+  .card .g{width:100%;max-width:170px;margin:0 auto}
+  .card .val{text-align:center;font-size:24px;font-weight:700;margin-top:-6px;line-height:1.1}
+  .card .val span{font-size:14px;font-weight:500;color:var(--mute);margin-left:3px}
+  .card .trend{text-align:center;font-size:12px;color:var(--mute);min-height:16px}
+  .card .why{font-size:13px;color:var(--mute);margin:0}
+  .card .meta{font-size:12px;color:var(--mute);display:flex;justify-content:space-between;gap:6px;flex-wrap:wrap}
+  .card a{color:var(--blue);text-decoration:none;border-bottom:1px solid transparent}
+  .card a:hover{border-color:var(--blue)}
+  .card .edit{display:none;gap:6px;align-items:center;flex-wrap:wrap;font-size:13px;margin-top:4px}
+  body.editing .card .edit{display:flex}
+  .card input{font:inherit;font-size:14px;width:90px;padding:5px 7px;border:1px solid var(--line);border-radius:5px}
+  .card input[type=date]{width:150px}
+  .card.empty .val{color:var(--grey)}
+  .legend{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:14px}
+  .legend h3{margin:0 0 8px;font-size:15px}
+  .legend ul{margin:0;padding-left:18px}
+  .legend li{margin:3px 0}
+  .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+  @media (max-width:640px){.hero{grid-template-columns:1fr;text-align:center}.hero svg{max-width:280px;margin:0 auto}.flags{justify-content:center}h1{font-size:22px}}
+  @media (prefers-reduced-motion:no-preference){path.needle{transition:d .5s ease}}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div>
+    <h1>Baromètre de crise — États-Unis / monde</h1>
+    <p>12 indicateurs validés par la littérature sur les récessions, US-centrés parce que le cycle mondial suit le cycle américain. Mis à jour le <span id="upd"></span>.</p>
+  </div>
+  <div class="tools">
+    <a class="btn" href="france.html">Version France</a>
+    <button id="editBtn" type="button">Modifier les valeurs</button>
+    <button id="resetBtn" type="button">Revenir aux valeurs initiales</button>
+  </div>
+</header>
+
+<div class="hero">
+  <div id="heroGauge"></div>
+  <div class="verdict">
+    <h2 id="verdictTitle"></h2>
+    <p id="verdictText"></p>
+    <small>Score = moyenne pondérée du risque de chaque indicateur (0 = zone sûre, 100 = seuil de crise historique). Les indicateurs sans valeur sont exclus du calcul.</small>
+    <div class="flags" id="flags"></div>
+  </div>
+</div>
+<div class="ctx" id="ctx"></div>
+
+<div id="sections"></div>
+
+<div class="legend">
+  <h3>Comment lire</h3>
+  <ul>
+    <li><span class="dot" style="background:var(--green)"></span>0–33 : zone sûre. <span class="dot" style="background:var(--amber)"></span>33–66 : vigilance. <span class="dot" style="background:var(--red)"></span>66–100 : seuil de crise atteint ou proche.</li>
+    <li>Score global : &lt; 25 calme · 25–50 vigilance, réduire le levier · 50–75 alerte, réduire l'exposition actions · &gt; 75 crise probable sous 6–12 mois.</li>
+    <li>Règle d'or : 3 jauges rouges ou plus parmi les indicateurs de <em>timing</em> = alerte même si le score global reste bas (les crises partent d'un secteur). Les indicateurs d'ampleur (valorisation, dette) pèsent sur le score mais ne comptent pas dans cette règle.</li>
+    <li>La courbe des taux est le meilleur prédicteur (6–18 mois d'avance) mais la récession arrive presque toujours <em>après</em> qu'elle redevient positive. Le CAPE prédit l'ampleur d'une chute, pas sa date.</li>
+    <li>Pour rafraîchir : « Modifier les valeurs », puis saisir les chiffres depuis le lien de chaque carte (tous gratuits). Les modifications restent tant que la page est ouverte ; pour les figer, éditer le bloc DONNÉES dans le fichier.</li>
+  </ul>
+</div>
+</main>
+
+<script>
+// ===== DONNÉES — c'est ici qu'on met à jour =====
+let UPDATED = "2026-09-11";
+let CONTEXT = [["Taux US 10 ans","4,95 %"],["Chômage","4,1 %"],["S&P 500","7 719"],["VIX","14,5"],["Fed funds","stable, marché hésite entre statu quo et hausse"]];
+const FAMILIES = {"Financier":"les marchés sentent avant les statistiques","Économique":"l'activité et l'emploi réels","Physique":"ce qui bouge vraiment, dur à maquiller"};
+const VERDICTS = [
+ "Aucun signal de récession dans les 6–12 mois. Garder l'allocation cible ; c'est le moment de vérifier le levier, pas de l'augmenter.",
+ "Des fissures apparaissent. Réduire le levier, ne pas ajouter de risque, surveiller les jauges orange chaque semaine.",
+ "Plusieurs prédicteurs historiques sont au seuil. Réduire l'exposition actions, allonger le cash, vérifier la liquidité.",
+ "La configuration ressemble à 2000, 2007 ou 2019. Se positionner défensif : cash, obligations d'État courtes, pas de levier."];
+const INDICATORS = [
+ // ---------- Financier ----------
+ {id:"yc", fam:"Financier", name:"Courbe des taux 10 ans – 3 mois", unit:"pt", value:0.95, prev:0.87, date:"2026-09-10",
+  safe:1.5, danger:-0.5, floor:45, weight:15, src:"https://fred.stlouisfed.org/series/T10Y3M", srcName:"FRED T10Y3M",
+  why:"Inversée avant chaque récession US depuis 1968 (Estrella & Mishkin 1998). Inversée jusqu'en 2025 : la récession suit en général 6–18 mois après la ré-pentification, d'où un plancher de risque à 45 tant que ce délai court."},
+ {id:"hy", fam:"Financier", name:"Spread obligations High Yield (OAS)", unit:"%", value:2.71, prev:2.65, date:"2026-09-09",
+  safe:3, danger:6, weight:10, src:"https://fred.stlouisfed.org/series/BAMLH0A0HYM2", srcName:"FRED BAMLH0A0HYM2",
+  why:"Le marché du crédit décroche avant les actions (Gilchrist & Zakrajšek 2012). Seuil : > 5–6 %. Sous 3 % = complaisance : le signal utile est une hausse rapide de +100 pb en un mois."},
+ {id:"nfci", fam:"Financier", name:"Conditions financières (NFCI Chicago Fed)", unit:"", value:-0.56, prev:-0.54, date:"2026-08-28",
+  safe:-0.5, danger:0.5, weight:5, src:"https://fred.stlouisfed.org/series/NFCI", srcName:"FRED NFCI",
+  why:"105 mesures de stress (liquidité, crédit, levier). Positif = plus tendu que la moyenne ; précède le PIB de 1–2 trimestres."},
+ {id:"cape", fam:"Financier", name:"Valorisation actions (CAPE Shiller)", unit:"×", value:41.0, prev:39.7, date:"2026-09-09", timing:false,
+  safe:20, danger:40, weight:5, src:"https://www.multpl.com/shiller-pe", srcName:"multpl.com",
+  why:"Ne prédit pas la date mais l'ampleur : > 40 n'a été vu qu'en 1999–2000 (Campbell & Shiller 1998). Rendements 10 ans attendus faibles."},
+ {id:"gap", fam:"Financier", name:"Écart crédit privé / PIB (BIS)", unit:"pt", value:null, date:"", timing:false,
+  safe:0, danger:10, weight:5, src:"https://www.bis.org/statistics/c_gaps.htm", srcName:"BIS credit gaps",
+  why:"Meilleur signal avancé des crises bancaires à 1–3 ans (Borio & Lowe 2002, Drehmann & Juselius 2014). Seuil : > 10 pt. Trimestriel, à renseigner."},
+ // ---------- Économique ----------
+ {id:"sahm", fam:"Économique", name:"Règle de Sahm (chômage)", unit:"pt", value:-0.07, prev:-0.03, date:"2026-08",
+  safe:0, danger:0.5, weight:10, src:"https://fred.stlouisfed.org/series/SAHMREALTIME", srcName:"FRED SAHMREALTIME",
+  why:"Hausse du chômage (moy. 3 mois) vs son plus bas 12 mois. ≥ 0,5 pt = récession déjà commencée ; aucun faux positif depuis 1970, une exception en 2024."},
+ {id:"claims", fam:"Économique", name:"Inscriptions au chômage (moy. 4 sem.)", unit:"k", value:206, prev:207.5, date:"2026-09-05",
+  safe:210, danger:260, weight:8, src:"https://fred.stlouisfed.org/series/IC4WSA", srcName:"FRED IC4WSA",
+  why:"Donnée la plus rapide (hebdo). Une hausse durable de +20 % vs le plus bas 12 mois précède les récessions de 2–4 mois. Mesure les licenciements, pas les embauches."},
+ {id:"ism", fam:"Économique", name:"ISM manufacturier (PMI)", unit:"", value:54.6, prev:55.6, date:"2026-08",
+  safe:52, danger:45, weight:8, src:"https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/", srcName:"ISM",
+  why:"Enquête directeurs d'achats. < 50 = contraction du secteur ; < 45 = économie entière en récession dans l'histoire. Regarder aussi les nouvelles commandes (53,7)."},
+ {id:"lei", fam:"Économique", name:"Indice avancé Conference Board (6 mois)", unit:"%", value:0.2, prev:-1.3, date:"2026-07",
+  safe:1, danger:-3, weight:8, src:"https://www.conference-board.org/topics/us-leading-indicators/", srcName:"Conference Board",
+  why:"Composite de 10 séries avancées. Règle 3D : ‑2 % sur 6 mois avec diffusion large = récession (fiable depuis 1980, faux positif en 2022–24)."},
+ {id:"permits", fam:"Économique", name:"Permis de construire (a/a)", unit:"%", value:3.1, date:"2026-07",
+  safe:5, danger:-15, weight:6, src:"https://fred.stlouisfed.org/series/PERMIT", srcName:"FRED PERMIT",
+  why:"« Housing is the business cycle » (Leamer 2007) : le logement retourne un an avant le reste. Seuil : ‑15 % a/a."},
+ // ---------- Physique ----------
+ {id:"cass", fam:"Physique", name:"Fret Cass – expéditions (a/a)", unit:"%", value:-4.8, prev:-4.1, date:"2026-07",
+  safe:2, danger:-10, weight:10, src:"https://www.cassinfo.com/freight-audit-payment/cass-transportation-indexes", srcName:"Cass Freight Index",
+  why:"Volumes réels transportés, tous modes. Recule 2–3 trimestres avant 2001 et 2008. Biais structurel : report camion → rail intermodal, d'où une lecture prudente."},
+ {id:"cu", fam:"Physique", name:"Cuivre – prix (a/a)", unit:"%", value:41, date:"2026-09-11",
+  safe:10, danger:-15, weight:10, src:"https://tradingeconomics.com/commodity/copper", srcName:"Trading Economics",
+  why:"« Dr Copper » : demande industrielle mondiale, Chine incluse. Une chute > 15 % a/a a accompagné 2001, 2008, 2015, 2020. Hausse actuelle gonflée par les droits de douane."},
+];
+
+const DATA_URL = "data/us.json";
+const INITIAL = JSON.parse(JSON.stringify(INDICATORS));
+
+// ===== Moteur =====
+const risk = i => {
+  if(i.value==null) return null;
+  let r = (i.value-i.safe)/(i.danger-i.safe)*100;
+  if(i.floor!=null) r = Math.max(r, i.floor);
+  return Math.max(0,Math.min(100,r));
+};
+const color = r => r==null ? "var(--grey)" : r<33 ? "var(--green)" : r<66 ? "var(--amber)" : "var(--red)";
+const fmt = v => v==null ? "—" : Number(v.toFixed(2)).toString().replace(".",",").replace("-","‑");
+
+function arc(cx,cy,r,a0,a1){const p=a=>[cx+r*Math.cos(a),cy+r*Math.sin(a)];const[x0,y0]=p(a0),[x1,y1]=p(a1);return `M${x0} ${y0}A${r} ${r} 0 ${a1-a0>Math.PI?1:0} 1 ${x1} ${y1}`;}
+function gauge(r,big){
+  const W=200,H=112,cx=100,cy=104,R=big?82:70,sw=big?16:13;
+  const seg=(f0,f1,c)=>`<path d="${arc(cx,cy,R,Math.PI+f0*Math.PI,Math.PI+f1*Math.PI)}" stroke="${c}" stroke-width="${sw}" fill="none"/>`;
+  const a = r==null?Math.PI:Math.PI+(r/100)*Math.PI;
+  const nx=cx+(R-sw/2-4)*Math.cos(a), ny=cy+(R-sw/2-4)*Math.sin(a);
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="risque ${r==null?'non renseigné':Math.round(r)} sur 100">
+   ${seg(0,.33,"var(--green)")}${seg(.33,.66,"var(--amber)")}${seg(.66,1,"var(--red)")}
+   <path class="needle" d="M${cx} ${cy} L${nx} ${ny}" stroke="${r==null?'var(--grey)':'var(--ink)'}" stroke-width="3" stroke-linecap="round"/>
+   <circle cx="${cx}" cy="${cy}" r="5" fill="var(--ink)"/>
+   ${big?`<text x="${cx}" y="${cy-22}" text-anchor="middle" font-size="40" font-weight="700" fill="var(--ink)">${r==null?'—':Math.round(r)}</text>`:''}
+  </svg>`;
+}
+function compute(){
+  let num=0,den=0,reds=[],ampl=[];
+  INDICATORS.forEach(i=>{const r=risk(i); if(r==null) return; num+=r*i.weight; den+=i.weight;
+    if(r>=66) (i.timing===false?ampl:reds).push(i);});
+  return {score: den?num/den:null, reds, ampl};
+}
+function render(){
+  document.getElementById("upd").textContent = new Date(UPDATED+"T12:00:00").toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"});
+  const {score,reds,ampl}=compute();
+  document.getElementById("heroGauge").innerHTML=gauge(score,true);
+  const s=Math.round(score);
+  const [t,txt]= s<25?["Calme",VERDICTS[0]] : s<50?["Vigilance",VERDICTS[1]] : s<75?["Alerte",VERDICTS[2]] : ["Crise probable",VERDICTS[3]];
+  document.getElementById("verdictTitle").textContent=`${s} / 100 — ${t}`;
+  document.getElementById("verdictText").textContent=txt;
+  const fl=document.getElementById("flags");
+  fl.innerHTML = (reds.length ? reds.map(i=>`<span class="flag" style="background:var(--red)">${i.name}</span>`).join("") : `<span class="flag" style="background:var(--green)">Aucune jauge rouge de timing</span>`)
+    + ampl.map(i=>`<span class="flag" style="background:var(--mute)">${i.name} (ampleur)</span>`).join("");
+  if(reds.length>=3) fl.innerHTML += `<span class="flag" style="background:var(--ink)">3 jauges rouges : alerte quelle que soit la moyenne</span>`;
+  document.getElementById("ctx").innerHTML = CONTEXT.map(c=>`<span>${c[0]} <b>${c[1]}</b></span>`).join("");
+  const fams=[...new Set(INDICATORS.map(i=>i.fam))];
+  document.getElementById("sections").innerHTML = fams.map(f=>`
+   <section><h3>${f} <span style="font-weight:400">— ${FAMILIES[f]}</span></h3>
+   <div class="grid">${INDICATORS.filter(i=>i.fam===f).map(card).join("")}</div></section>`).join("");
+  document.querySelectorAll("input[data-id]").forEach(inp=>inp.addEventListener("change",e=>{
+    const i=INDICATORS.find(x=>x.id===e.target.dataset.id);
+    if(e.target.type==="date") i.date=e.target.value; else { i.prev=i.value; i.value = e.target.value===""?null:parseFloat(e.target.value.replace(",",".")); }
+    render();
+  }));
+}
+function trend(i){
+  if(i.value==null||i.prev==null) return "";
+  const a=risk({...i,value:i.prev}), b=risk(i);
+  const d=b-a, arrow = Math.abs(d)<2 ? "= stable" : d>0 ? "▲ risque en hausse" : "▼ risque en baisse";
+  return `${arrow} · précédent ${fmt(i.prev)}`;
+}
+function card(i){
+  const r=risk(i);
+  return `<article class="card ${r==null?'empty':''}">
+   <div class="name">${i.name}</div>
+   <div class="g">${gauge(r,false)}</div>
+   <div class="val">${fmt(i.value)}<span>${i.unit}</span></div>
+   <div class="trend">${trend(i)}</div>
+   <p class="why">${i.why}</p>
+   <div class="meta"><span>Seuils : sûr ${fmt(i.safe)} · crise ${fmt(i.danger)} · poids ${i.weight}${i.timing===false?' · ampleur':''}</span></div>
+   <div class="meta"><span>${i.date||"non renseigné"}</span><a href="${i.src}" target="_blank" rel="noopener">${i.srcName}</a></div>
+   <div class="edit"><label>Valeur <input type="text" inputmode="decimal" data-id="${i.id}" value="${i.value==null?'':i.value}"></label>
+   <label>Date <input type="date" data-id="${i.id}" value="${/^\d{4}-\d{2}-\d{2}$/.test(i.date)?i.date:''}"></label></div>
+  </article>`;
+}
+document.getElementById("editBtn").addEventListener("click",e=>{document.body.classList.toggle("editing");e.target.classList.toggle("on");});
+document.getElementById("resetBtn").addEventListener("click",()=>{INDICATORS.forEach((i,k)=>Object.assign(i,INITIAL[k]));render();});
+async function load(){
+  try{
+    const r=await fetch(DATA_URL,{cache:"no-store"}); if(!r.ok) throw new Error(r.status);
+    const d=await r.json();
+    if(d.updated) UPDATED=d.updated;
+    if(Array.isArray(d.context)&&d.context.length) CONTEXT=d.context;
+    for(const i of INDICATORS){ const v=d.values&&d.values[i.id]; if(!v) continue;
+      if(v.value!==undefined) i.value=v.value; if(v.prev!==undefined) i.prev=v.prev; if(v.date) i.date=v.date; }
+    INITIAL.length=0; INITIAL.push(...JSON.parse(JSON.stringify(INDICATORS)));
+  }catch(e){ /* hors ligne ou fichier ouvert en local : valeurs embarquées */ }
+  render();
+}
+load();
+</script>
+</body>
+</html>
