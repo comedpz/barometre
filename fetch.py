@@ -8,8 +8,8 @@ l'ancienne valeur est conservée et l'erreur est listée dans le champ "errors".
 """
 import json, os, sys, datetime, urllib.request, urllib.parse
 
-FRED_KEY = os.environ.get("FRED_API_KEY", "")
-INSEE_TOKEN = os.environ.get("INSEE_TOKEN", "")
+FRED_KEY = os.environ.get("FRED_API_KEY", "").strip()
+INSEE_TOKEN = os.environ.get("INSEE_TOKEN", "").strip()
 TODAY = datetime.date.today().isoformat()
 UA = {"User-Agent": "barometre-crise/1.0 (github pages, usage perso)"}
 
@@ -50,6 +50,23 @@ def ecb_ciss():
     vals = [(r[it], float(r[iv])) for r in rows[1:] if r[iv]]
     return round(vals[-1][1], 3), round(vals[-2][1], 3), vals[-1][0]
 
+# ---------- BIS : écart crédit/PIB ----------
+def bis_gap(country):
+    """Credit-to-GDP gap BIS (API SDMX v2, puis v1 en secours). Clé : Q.<pays>.P.A.C"""
+    urls = [f"https://stats.bis.org/api/v2/data/dataflow/BIS/WS_CREDIT_GAP/1.0/Q.{country}.P.A.C?lastNObservations=2&format=csv",
+            f"https://stats.bis.org/api/v1/data/WS_CREDIT_GAP/Q.{country}.P.A.C/all?lastNObservations=2&format=csv"]
+    err = None
+    for url in urls:
+        try:
+            rows = [l.split(",") for l in get(url).strip().splitlines()]
+            head = rows[0]; it, iv = head.index("TIME_PERIOD"), head.index("OBS_VALUE")
+            vals = [(r[it], float(r[iv])) for r in rows[1:] if len(r) > iv and r[iv]]
+            vals.sort()
+            return round(vals[-1][1], 1), round(vals[-2][1], 1), vals[-1][0]
+        except Exception as e:
+            err = e
+    raise err
+
 # ---------- INSEE (optionnel) ----------
 INSEE_IDBANK = {  # à vérifier sur insee.fr : fiche de la série > "Identifiant (idbank)"
     "climat": "001565530",   # climat des affaires, ensemble
@@ -83,6 +100,7 @@ US = {
     "permits": lambda: fred_yoy("PERMIT"),
     "cass":    lambda: fred_yoy("FRGSHPUSM649NCIS"),
     "cu":      lambda: fred_yoy("PCOPPUSDM"),
+    "gap":     lambda: bis_gap("US"),
 }
 FR = {
     "oatbund": lambda: (lambda fr, de: (round((fr[0][1] - de[0][1]) * 100), round((fr[1][1] - de[1][1]) * 100), fr[0][0][:7]))
@@ -94,6 +112,7 @@ FR = {
     "menages": lambda: insee_last("menages"),
     "sahm":    insee_sahm,
     "cu":      lambda: fred_yoy("PCOPPUSDM"),
+    "gap":     lambda: bis_gap("FR"),
 }
 
 def refresh(name, plan):
