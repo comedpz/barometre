@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-11",
+ "updated": "2026-09-14",
  "context": [
   [
    "PIB T2",
@@ -42,16 +42,16 @@
    "source": "embarqué 2026-09-11"
   },
   "ciss": {
-   "value": null,
-   "prev": null,
-   "date": "",
-   "source": "embarqué 2026-09-11"
+   "value": 0.033,
+   "prev": 0.036,
+   "date": "2026-09-11",
+   "source": "auto"
   },
   "gap": {
    "value": null,
    "prev": null,
    "date": "",
-   "source": "embarqué 2026-09-11"
+   "source": "manual"
   },
   "sahm": {
    "value": 0.7,
@@ -69,7 +69,7 @@
    "value": 48.5,
    "prev": 49.4,
    "date": "2026-08",
-   "source": "embarqué 2026-09-11"
+   "source": "manual"
   },
   "menages": {
    "value": 86.0,
@@ -81,19 +81,19 @@
    "value": 4.6,
    "prev": 4.4,
    "date": "2026-07",
-   "source": "embarqué 2026-09-11"
+   "source": "manual"
   },
   "logements": {
    "value": 5.7,
    "prev": null,
    "date": "2026-07",
-   "source": "embarqué 2026-09-11"
+   "source": "manual"
   },
   "pl": {
    "value": 1.2,
    "prev": 1.3,
    "date": "2026-07",
-   "source": "embarqué 2026-09-11"
+   "source": "manual"
   },
   "cu": {
    "value": 41.0,
@@ -102,5 +102,13 @@
    "source": "embarqué 2026-09-11"
   }
  },
- "errors": []
+ "errors": [
+  "oatbund: HTTPError HTTP Error 400: Bad Request",
+  "oat: HTTPError HTTP Error 400: Bad Request",
+  "hy: HTTPError HTTP Error 400: Bad Request",
+  "climat: RuntimeError INSEE_TOKEN manquant",
+  "menages: RuntimeError INSEE_TOKEN manquant",
+  "sahm: RuntimeError INSEE_TOKEN manquant",
+  "cu: HTTPError HTTP Error 400: Bad Request"
+ ]
 }
