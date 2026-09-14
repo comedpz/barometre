@@ -2,24 +2,16 @@
  "updated": "2026-09-14",
  "context": [
   [
-   "PIB T2",
-   "0,0 %"
-  ],
-  [
-   "Croissance 2026 (INSEE)",
-   "0,4 %"
-  ],
-  [
-   "Inflation",
-   "2,4 %"
+   "OAT 10 ans",
+   "3,68 %"
   ],
   [
    "Chômage",
-   "8,3 %"
+   "8,2 %"
   ],
   [
-   "OAT 10 ans",
-   "4,31 %"
+   "Inflation (a/a)",
+   "0,8 %"
   ]
  ],
  "values": {
@@ -54,16 +46,16 @@
    "source": "auto"
   },
   "sahm": {
-   "value": 0.7,
-   "prev": 0.5,
-   "date": "2026-T2",
-   "source": "embarqué 2026-09-11"
+   "value": 0.6,
+   "prev": 0.6,
+   "date": "2026-06",
+   "source": "auto"
   },
   "climat": {
-   "value": 98.0,
-   "prev": 98.0,
-   "date": "2026-08",
-   "source": "embarqué 2026-09-11"
+   "value": 99.88,
+   "prev": 99.826,
+   "date": "2024-01-01",
+   "source": "auto"
   },
   "pmi": {
    "value": 48.5,
@@ -72,10 +64,10 @@
    "source": "manual"
   },
   "menages": {
-   "value": 86.0,
-   "prev": null,
-   "date": "2026-08",
-   "source": "embarqué 2026-09-11"
+   "value": 99.209,
+   "prev": 98.834,
+   "date": "2024-01-01",
+   "source": "auto"
   },
   "defaill": {
    "value": 4.6,
@@ -100,11 +92,13 @@
    "prev": 37.8,
    "date": "2026-07",
    "source": "auto"
+  },
+  "ipi": {
+   "value": 0.7,
+   "prev": -0.6,
+   "date": "2024-03",
+   "source": "auto"
   }
  },
- "errors": [
-  "climat: RuntimeError INSEE_TOKEN manquant",
-  "menages: RuntimeError INSEE_TOKEN manquant",
-  "sahm: RuntimeError INSEE_TOKEN manquant"
- ]
+ "errors": []
 }
