@@ -1,10 +1,5 @@
 {
-  "_aide": "Indicateurs sans API gratuite. Modifier value et date, puis commit : le workflow ou fetch.py reprend ces valeurs. Une valeur ici a priorité sur l'automatique si 'force': true.",
+  "_aide": "Plus rien d'obligatoire ici. Le bandeau de contexte ci-dessous ne sert que de secours si FRED ne répond pas. Pour forcer une valeur : \"values\": {\"cape\": {\"value\": 41, \"date\": \"2026-09\", \"force\": true}}",
   "context": [["Taux US 10 ans","4,95 %"],["Chômage","4,1 %"],["S&P 500","7 719"],["VIX","14,5"]],
-  "values": {
-    "ism":  {"value": 54.6, "date": "2026-08", "source": "https://www.ismworld.org"},
-    "lei":  {"value": 0.2,  "date": "2026-07", "source": "https://www.conference-board.org/topics/us-leading-indicators/"},
-    "cape": {"value": 41.0, "date": "2026-09-09", "source": "https://www.multpl.com/shiller-pe"},
-    "gap":  {"value": null, "date": "", "source": "https://www.bis.org/statistics/c_gaps.htm"}
-  }
+  "values": {}
 }
