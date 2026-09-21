@@ -1,13 +1,13 @@
 {
- "updated": "2026-09-14",
+ "updated": "2026-09-21",
  "context": [
   [
    "OAT 10 ans",
-   "3,68 %"
+   "4,00 %"
   ],
   [
    "Chômage",
-   "8,2 %"
+   "8,3 %"
   ],
   [
    "Inflation (a/a)",
@@ -16,27 +16,27 @@
  ],
  "values": {
   "oatbund": {
-   "value": 71,
-   "prev": 69,
-   "date": "2026-06",
+   "value": 82,
+   "prev": 78,
+   "date": "2026-08",
    "source": "auto"
   },
   "oat": {
-   "value": 3.68,
-   "prev": 3.74,
-   "date": "2026-06-01",
+   "value": 4.0,
+   "prev": 3.85,
+   "date": "2026-08-01",
    "source": "auto"
   },
   "hy": {
-   "value": 2.68,
-   "prev": 2.68,
-   "date": "2026-09-11",
+   "value": 2.69,
+   "prev": 2.74,
+   "date": "2026-09-17",
    "source": "auto"
   },
   "ciss": {
-   "value": 0.033,
-   "prev": 0.036,
-   "date": "2026-09-11",
+   "value": 0.034,
+   "prev": 0.038,
+   "date": "2026-09-15",
    "source": "auto"
   },
   "gap": {
@@ -46,9 +46,9 @@
    "source": "auto"
   },
   "sahm": {
-   "value": 0.6,
-   "prev": 0.6,
-   "date": "2026-06",
+   "value": 0.67,
+   "prev": 0.73,
+   "date": "2026-07",
    "source": "auto"
   },
   "climat": {

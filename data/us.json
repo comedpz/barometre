@@ -1,9 +1,9 @@
 {
- "updated": "2026-09-14",
+ "updated": "2026-09-21",
  "context": [
   [
    "Taux US 10 ans",
-   "4,96 %"
+   "4,94 %"
   ],
   [
    "Chômage",
@@ -11,36 +11,36 @@
   ],
   [
    "S&P 500",
-   "7 657"
+   "7 638"
   ],
   [
    "VIX",
-   "15,8"
+   "15,4"
   ]
  ],
  "values": {
   "yc": {
-   "value": 0.89,
-   "prev": 0.95,
-   "date": "2026-09-11",
+   "value": 0.87,
+   "prev": 0.82,
+   "date": "2026-09-18",
    "source": "auto"
   },
   "hy": {
-   "value": 2.65,
+   "value": 2.7,
    "prev": 2.7,
-   "date": "2026-09-11",
+   "date": "2026-09-17",
    "source": "auto"
   },
   "nfci": {
-   "value": -0.564,
-   "prev": -0.56,
-   "date": "2026-09-04",
+   "value": -0.56,
+   "prev": -0.558,
+   "date": "2026-09-11",
    "source": "auto"
   },
   "cape": {
-   "value": 41.09,
-   "prev": 41.0,
-   "date": "2026-09-14",
+   "value": 40.94,
+   "prev": 41.09,
+   "date": "2026-09-21",
    "source": "auto"
   },
   "gap": {
@@ -56,9 +56,9 @@
    "source": "auto"
   },
   "claims": {
-   "value": 206.0,
-   "prev": 207.5,
-   "date": "2026-09-05",
+   "value": 203.25,
+   "prev": 206.0,
+   "date": "2026-09-12",
    "source": "auto"
   },
   "ism": {
@@ -74,9 +74,9 @@
    "source": "manual"
   },
   "permits": {
-   "value": 2.4,
-   "prev": -1.8,
-   "date": "2026-07",
+   "value": 3.5,
+   "prev": 2.4,
+   "date": "2026-08",
    "source": "auto"
   },
   "cass": {
