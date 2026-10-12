@@ -1,9 +1,9 @@
 {
- "updated": "2026-10-05",
+ "updated": "2026-10-12",
  "context": [
   [
    "Taux US 10 ans",
-   "5,24 %"
+   "5,22 %"
   ],
   [
    "Chômage",
@@ -11,36 +11,36 @@
   ],
   [
    "S&P 500",
-   "7 723"
+   "7 812"
   ],
   [
    "VIX",
-   "16,4"
+   "14,8"
   ]
  ],
  "values": {
   "yc": {
-   "value": 1.09,
-   "prev": 1.07,
-   "date": "2026-10-02",
+   "value": 0.99,
+   "prev": 0.99,
+   "date": "2026-10-09",
    "source": "auto"
   },
   "hy": {
-   "value": 3.24,
-   "prev": 3.12,
-   "date": "2026-10-01",
+   "value": 3.15,
+   "prev": 3.09,
+   "date": "2026-10-08",
    "source": "auto"
   },
   "nfci": {
-   "value": -0.548,
-   "prev": -0.553,
-   "date": "2026-09-25",
+   "value": -0.494,
+   "prev": -0.51,
+   "date": "2026-10-02",
    "source": "auto"
   },
   "cape": {
-   "value": 41.38,
-   "prev": 41.48,
-   "date": "2026-10-05",
+   "value": 41.87,
+   "prev": 41.38,
+   "date": "2026-10-12",
    "source": "auto"
   },
   "gap": {
@@ -56,9 +56,9 @@
    "source": "auto"
   },
   "claims": {
-   "value": 200.0,
-   "prev": 202.5,
-   "date": "2026-09-26",
+   "value": 198.0,
+   "prev": 200.5,
+   "date": "2026-10-03",
    "source": "auto"
   },
   "ism": {

@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-05",
+ "updated": "2026-10-12",
  "context": [
   [
    "OAT 10 ans",
@@ -28,15 +28,15 @@
    "source": "auto"
   },
   "hy": {
-   "value": 3.17,
-   "prev": 3.0,
-   "date": "2026-10-01",
+   "value": 3.26,
+   "prev": 3.22,
+   "date": "2026-10-08",
    "source": "auto"
   },
   "ciss": {
-   "value": 0.013,
-   "prev": 0.013,
-   "date": "2026-09-30",
+   "value": 0.017,
+   "prev": 0.017,
+   "date": "2026-10-08",
    "source": "auto"
   },
   "gap": {
