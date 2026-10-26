@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-19",
+ "updated": "2026-10-26",
  "context": [
   [
    "OAT 10 ans",
@@ -28,15 +28,15 @@
    "source": "auto"
   },
   "hy": {
-   "value": 3.36,
-   "prev": 3.26,
-   "date": "2026-10-15",
+   "value": 3.54,
+   "prev": 3.38,
+   "date": "2026-10-22",
    "source": "auto"
   },
   "ciss": {
-   "value": 0.01,
-   "prev": 0.011,
-   "date": "2026-10-16",
+   "value": 0.021,
+   "prev": 0.008,
+   "date": "2026-10-22",
    "source": "auto"
   },
   "gap": {
@@ -88,9 +88,9 @@
    "source": "manual"
   },
   "cu": {
-   "value": 38.6,
-   "prev": 37.8,
-   "date": "2026-07",
+   "value": 44.8,
+   "prev": 48.2,
+   "date": "2026-09",
    "source": "auto"
   },
   "ipi": {
