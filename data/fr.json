@@ -1,13 +1,13 @@
 {
- "updated": "2026-11-16",
+ "updated": "2026-11-23",
  "context": [
   [
    "OAT 10 ans",
-   "4,48 %"
+   "4,89 %"
   ],
   [
    "Chômage",
-   "8,2 %"
+   "8,5 %"
   ],
   [
    "Inflation (a/a)",
@@ -16,21 +16,21 @@
  ],
  "values": {
   "oatbund": {
-   "value": 101,
-   "prev": 85,
-   "date": "2026-09",
+   "value": 147,
+   "prev": 97,
+   "date": "2026-10",
    "source": "auto"
   },
   "oat": {
-   "value": 4.477,
-   "prev": 4.031,
-   "date": "2026-09-01",
+   "value": 4.89,
+   "prev": 4.44,
+   "date": "2026-10-01",
    "source": "auto"
   },
   "hy": {
-   "value": 3.23,
-   "prev": 3.21,
-   "date": "2026-11-12",
+   "value": 3.54,
+   "prev": 3.37,
+   "date": "2026-11-20",
    "source": "auto"
   },
   "ciss": {
@@ -47,8 +47,8 @@
   },
   "sahm": {
    "value": 0.53,
-   "prev": 0.67,
-   "date": "2026-08",
+   "prev": 0.53,
+   "date": "2026-09",
    "source": "auto"
   },
   "climat": {
@@ -100,5 +100,7 @@
    "source": "auto"
   }
  },
- "errors": []
+ "errors": [
+  "ciss: TimeoutError The read operation timed out"
+ ]
 }
